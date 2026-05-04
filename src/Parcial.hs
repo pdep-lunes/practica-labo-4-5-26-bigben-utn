@@ -45,18 +45,26 @@ diaDeSpa unPerro
 diaDeCampo :: Perro -> Perro
 diaDeCampo unPerro = unPerro { juguetesFavoritos = drop 1 (juguetesFavoritos unPerro) }
 
+horaYMedia = 60 * 1.5 -- en minutos
+
 zara :: Perro
 zara = {
     raza = "dalmata"
     juguetesFavoritos = ["pelota", "mantita"]
-    tiempo = 60 * 1.5
+    tiempo = horaYMedia
     energia = 80
 }
 
-GuarderíaPdePerritos = [    
+guarderiaPdePerritos = [    
     ("Jugar", 30)
     ("Ladrar 18", 20)
     ("Regalar pelota", 0)
     ("Día de spa", 120)
     ("Día de campo", 720)
 ]
+
+aceptablePerroEnGuarderia :: [(String, Numero)] -> Perro -> Bool
+aceptablePerroEnGuarderia rutinas unPerro = (sum . (map snd) $ guarderiaPdePerritos) >= tiempo unPerro
+
+esPerroResponsable :: [(String, Numero)] -> Perro -> Bool
+esPerroResponsable rutinas unPerro = (>3).length $ juguetesFavoritos (diaDeCampo unPerro)
